@@ -4,8 +4,7 @@ import (
 	"fmt"
 
 	"dateApp/config"
-
-	// product "dateApp/pkg/product/modules/repository"
+	user "dateApp/pkg/user/modules/repository"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -48,5 +47,6 @@ func DatabaseConnection() *gorm.DB {
 		panic(err)
 	}
 
+	db.AutoMigrate(&user.User{})
 	return db.Debug()
 }
