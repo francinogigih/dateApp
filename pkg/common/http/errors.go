@@ -5,8 +5,10 @@ import (
 )
 
 const (
-	ErrNotFound       = "err_not_found"
-	ErrInternalServer = "err_internal_server"
+	ErrInvalidUser       = "err_invalid_user"
+	ErrNotFound          = "err_not_found"
+	ErrInternalServer    = "err_internal_server"
+	ErrAlreadyRegistered = "err_already_registered"
 )
 
 // DefaultResponse default payload response
@@ -41,8 +43,12 @@ func NewInternalServerErrorResponse() DefaultResponse {
 
 func RenderErrorResponse(err error) (resp ErrorResponse) {
 	switch err.Error() {
+	case ErrInvalidUser:
+		resp = ErrorResponse{Status: InvalidUserStatus, Code: http.StatusUnauthorized, Message: "Invalid Username or Password"}
 	case ErrNotFound:
 		resp = ErrorResponse{Status: NotFoundStatus, Code: http.StatusNotFound, Message: "Not Found"}
+	case ErrAlreadyRegistered:
+		resp = ErrorResponse{Status: AlreadyRegistered, Code: http.StatusBadRequest, Message: "User Already Registered"}
 	default:
 		resp = ErrorResponse{Status: InternalErrStatus, Code: http.StatusInternalServerError, Message: "Internal server error"}
 	}

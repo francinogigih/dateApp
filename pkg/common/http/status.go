@@ -4,5 +4,6 @@ const (
 	BadRequestStatus  = "BAD_REQUEST"
 	InternalErrStatus = "SERVER_ERROR"
 	NotFoundStatus    = "NOT_FOUND"
-	AlreadyExists     = "ALREADY_EXISTS"
+	InvalidUserStatus = "INVALID_USER"
+	AlreadyRegistered = "ALREADY_REGISTERED"
 )
