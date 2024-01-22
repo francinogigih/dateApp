@@ -21,6 +21,7 @@ type AppConfig struct {
 	DBUsername string `mapstructure:"DB_USERNAME"`
 	DBPassword string `mapstructure:"DB_PASSWORD"`
 	DBPort     int    `mapstructure:"DB_PORT"`
+	SecretKey  string `mapstructure:"SECRET_KEY"`
 }
 
 // LoadConfig reads configuration from file or environment variables.
