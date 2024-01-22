@@ -1,14 +1,18 @@
 package business
 
-import user "dateApp/pkg/user/core"
+import (
+	user "dateApp/pkg/user/core"
+)
 
 type UserService struct {
 	userRepository user.UserRepository
+	jwt            user.Jwt
 }
 
-func NewUserService(repo user.UserRepository) UserService {
+func NewUserService(repo user.UserRepository, jwt user.Jwt) UserService {
 	return UserService{
 		repo,
+		jwt,
 	}
 }
 
@@ -30,4 +34,18 @@ func (s UserService) Register(data *User) (int64, error) {
 	}
 
 	return id, nil
+}
+
+func (s UserService) Login(username, password string) (*user.User, string, error) {
+	userData, err := s.userRepository.Get(username, password)
+	if err != nil {
+		return nil, "", err
+	}
+
+	token, err := s.jwt.CreateToken(userData.Username, userData.Email, userData.ID)
+	if err != nil {
+		return nil, "", err
+	}
+
+	return userData, token, nil
 }
