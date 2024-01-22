@@ -9,6 +9,7 @@ import (
 	userAPIHttp "dateApp/pkg/user/api/http"
 	userService "dateApp/pkg/user/business"
 	userRepository "dateApp/pkg/user/modules/repository"
+	"dateApp/pkg/util/jwt"
 
 	"github.com/labstack/echo/v4"
 	mw "github.com/labstack/echo/v4/middleware"
@@ -16,16 +17,17 @@ import (
 	"gorm.io/gorm"
 )
 
-func newUserService(db *gorm.DB) userService.UserService {
+func newUserService(db *gorm.DB, jwtUtil jwt.Jwt) userService.UserService {
 	userRepository := userRepository.NewPostgresDBRepository(db)
-	userService := userService.NewUserService(userRepository)
+	userService := userService.NewUserService(userRepository, &jwtUtil)
 	return userService
 }
 
 func main() {
 	db := pg.DatabaseConnection()
+	jwtUtil := jwt.NewJwt(config.GetConfig().SecretKey)
 
-	userService := newUserService(db)
+	userService := newUserService(db, jwtUtil)
 	userHandler := userAPIHttp.NewHandler(userService)
 	ctx := context.Background()
 	// define echo backend
