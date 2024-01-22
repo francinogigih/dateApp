@@ -8,4 +8,5 @@ func RegisterPath(e *echo.Echo, h *Handler) {
 		panic("item controller cannot be nil")
 	}
 	e.POST("v1/register", h.RegisterUser)
+	e.POST("v1/login", h.Login)
 }

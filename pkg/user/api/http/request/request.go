@@ -11,3 +11,8 @@ type UserRegistration struct {
 	BirthDate  string `json:"birthDate"`
 	Location   string `json:"location"`
 }
+
+type Login struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
